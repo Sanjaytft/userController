@@ -1,43 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Create Post</h4>
-                        <a href="{{ url('user/createpost')}}" class="btn btn-danger float-end">Go Back</a>
-                        <div class="card-body">
-                            <form action="{{ route('createpost') }}" method="POST" enctype="multipart/form-data"> 
-                                @method('POST')
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="">Post Title</label>
-                                    <input type="text" name="title" class="form-control" value="{{old('title')}}"> 
-                                    <label for="">Post Description</label>
-                                    <input type="text" name="description" class="form-control" value="{{old('description')}}"> 
-                                    <br> <br>
-                                    <input type="file" name="filename">
-                                </div>
-                                <div class="mb-3">
-                                    <button class="btn btn-primary" type="submit"> Save</button>
-                                </div>    
+@extends('layout.layout')
+@section('content')
+    <div class="card">
+        <div class="card-header">
+            User Add
+        </div>
 
-                            </form>
-                        </div>
+        <div class="card-body">
+            <form action="{{ route('createpost') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+                    <label for="title">Title *</label>
+                    <input type="text" id="title" name="title" class="form-control"
+                        value="{{ old('title', isset($event) ? $event->title : '') }}" required>
+                    @if ($errors->has('title'))
+                        <em class="invalid-feedback">
+                            {{ $errors->first('title') }}
+                        </em>
+                    @endif
 
-                    </div>
+                <div class="form-group {{ $errors->has('display') ? 'has-error' : '' }}">
+                    <label for="display">Display *
+                        <input type="checkbox" name="display"
+                            value="1"{{ old('dispaly', isset($event) ? $event->display : '') == 1 ? 'checked' : '' }}>
+
+                        @if ($errors->has('display'))
+                            <em class="invalid-feedback">
+                                {{ $errors->first('display') }}
+                            </em>
+                        @endif
+
                 </div>
-            </div>
+                <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
+                    <label for="description">Description *</label>
+                    <textarea id="description" name="description" class="form-control">{{ old('description', isset($event) ? $event->description : '') }}</textarea>
+                    @if ($errors->has('description'))
+                        <em class="invalid-feedback">
+                            {{ $errors->first('description') }}
+                        </em>
+                    @endif
+
+                </div>
+
+                <div class="form-group {{ $errors->has('file') ? 'has-error' : '' }}">
+                    <label for="file">file *</label>
+                    <textarea id="file" name="file" class="form-control">{{ old('file', isset($event) ? $event->file : '') }}</textarea>
+                    @if ($errors->has('file'))
+                        <em class="invalid-feedback">
+                            {{ $errors->first('file') }}
+                        </em>
+                    @endif
+
+                </div>
+                <div>
+                    <input class="btn btn-primary" type="submit" value="{{ trans('global.save') }}">
+                </div>
+            </form>
+
+
         </div>
     </div>
-</body>
-</html>
-        
+@endsection
