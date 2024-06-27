@@ -29,39 +29,42 @@
 	          <span class="sr-only">Toggle Menu</span>
 	        </button>
         </div>
-	  		<h1><a href="" class="logo">Admin Dashboard</a></h1>
         <ul class="list-unstyled components mb-5">
 
             @if(auth()->user()->role == 1)
+            <h1><a href="" class="logo">Super Admin Dashboard</a></h1>
                 <li>
-                    <a href="{{ route('superAdminUsers') }}"><span class="fa fa-users mr-3"></span> Users</a>
+                    <a href="{{ route('superAdminUsers') }}"><span class="fa fa-users mr-3"></span>Manage all Users</a>
                 </li>
                 <li>
-                    <a href="{{ route('manageRole') }}"><span class="fa fa-role mr-3"></span> Manage Role</a>
+                    <a href="{{ route('manageRole') }}"><span class="fa fa-role mr-3"></span> Manage all Roles</a>
                 </li>
                 <li>
-                  <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> Manage Posts</a>
+                  <a href="{{ route('super-admin.index') }}"><span class="fa fa-role mr-3"></span> Manage all Posts</a>
               </li>
               <li>
                 <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
             </li>
             @endif
             @if(auth()->user()->role == 2)
+            <h1><a href="" class="logo">Sub Admin Dashboard</a></h1>
                 <li>
                   <a href=""><span class="fa fa-role mr-3"></span> Manage Posts</a>
               </li>
               <li>
-                <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> View Posts</a>
+                <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span>All User Posts</a>
             </li>
             @endif
             @if(auth()->user()->role == 3)
+            <h1><a href="" class="logo">Admin Dashboard</a></h1>
             <li>
               <a href=""><span class="fa fa-role mr-3"></span> View Posts</a>
           </li>
           @endif
           @if(auth()->user()->role == 0)
+          <h1><a href="" class="logo">User Dashboard</a></h1>
           <li>
-            <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> All Posts Users</a>
+            <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> User Posts</a>
         </li>
             <li>
               <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>

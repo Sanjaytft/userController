@@ -37,5 +37,4 @@
         </div>
         <input type="submit" value="Update Role" class="btn btn-primary">
     </form>
-
 @endsection

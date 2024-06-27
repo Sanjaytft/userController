@@ -9,8 +9,7 @@
               @endif
           <div class="card mt-3">
               <div class="card-header">
-                  <h4> List of Users Roles
-                  <a href={{ route('posts.index') }} class="btn btn-primary float-end"> List of Posts</a>
+                  <h4 href={{ route('super-admin.index') }} class="btn btn-primary float-end"> List of Posts
                   </h4>
               </div>
                   <div class="card-body">
@@ -19,7 +18,7 @@
                           <tr>
                           <th> ID </th>
                           <th> Title </th>
-                          <th> Description <th>
+                          <th> Description </th>
                           <th > File </th>
                           <th> Status</th>
                           <th > Action </th>
@@ -34,24 +33,22 @@
                               <td> {{ $post->description }}</td>
                               <td> {{ $post->file }}</td>
                               <td>
-                                <a href="" class="btn btn-sm btn- {{ $post->status ? 'sucess' : 'danger' }}">
-                                  {{ $post->status ? 'Active' : 'Deactive' }}
-                                  </a>
-                              </td>
-                              {{-- //resources route follow this structure --}}
-                              {{-- <td>  @if(!empty ($role->getPermissionNames()))
-                                  @foreach($user->getPermissionNames() as $permissionname)
-                                  <label class="'badge badge-primary mx-1"> {{ $permissionname}} </label>
-                                  @endforeach
-                                  @endif </td>
-                              <td>  --}}
-                                  {{-- @role(super-admin) --}}
-                                  <td>
-                                  <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-success"> Edit</a>
-                              
-                                  <a href="{{ route('posts.destroy', $post->id) }}" class="btn btn-danger"> Delete</a>
-                                  {{-- @endrole --}}
-                              </td>
+                                <form action="{{ route('posts.change_status') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="post_id" value="{{$post->id}}">
+                                    <select name="status" class="form-control" id="" onchange="this.form.submit()">
+                                        <option value="0" {{ $post->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                        <option value="1" {{ $post->status == 1 ? 'selected' : '' }}>Active</option>
+                                    </select>
+                                </form>    
+                                <td>
+                                    <form action="{{ route('posts.destroy') }}" method="post">
+                                      @csrf
+                                      @method('DELETE')
+                                      <input type="hidden" name="post_id" value="{{$post->id}}">
+                                      <button type="submit" class="btn btn-danger btn-sm" >Delete</button>
+                                    </form>
+                                </td>
                           </tr>
                           @endforeach
                       </tbody>

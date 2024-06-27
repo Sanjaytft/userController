@@ -23,17 +23,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         
-        User::factory()->create([
-            'name' => 'SubAdmin',
-            'email' => 'subadmin@admin.com',
-            'password' => Hash::make('password'),
-            'role' => 2, 
-        ]);
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('password'),
-            'role' => 3, 
-        ]);
+        // User::factory()->create([
+        //     'name' => 'SubAdmin',
+        //     'email' => 'subadmin@admin.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => 2, 
+        // ]);
+        // User::factory()->create([
+        //     'name' => 'Admin',
+        //     'email' => 'admin@admin.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => 3, 
+        // ]);
     }
 }

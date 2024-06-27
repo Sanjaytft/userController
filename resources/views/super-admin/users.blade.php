@@ -6,7 +6,7 @@
 
     <table class="table">
         <tr>
-            <th>#</th>
+            <th>ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
@@ -27,10 +27,11 @@
                     @endif
                 </td>
                 <td>
-                    <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                    <form action="{{ route('superadmin.destroy') }}" method="post">
                       @csrf
                       @method('DELETE')
-                      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                      <input type="hidden" name="user_id" value="{{$user->id}}">
+                      <button type="submit" class="btn btn-danger btn-sm" >Delete</button>
                     </form>
                 </td>
             </tr>

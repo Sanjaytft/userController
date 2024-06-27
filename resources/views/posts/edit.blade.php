@@ -1,39 +1,37 @@
 @extends('layout.layout')
 
 @section('space-work')
-  <nav class="navbar navbar-expand-lg navbar-light bg-warning">
-    <div class="container-fluid">
-      <a class="navbar-brand h1" href={{ route('posts.index') }}>All Post</a>
-      <div class="justify-end ">
-        <div class="col ">
-          <a class="btn btn-sm btn-success" href={{ route('posts.create') }}>Add Post</a>
-        </div>
-      </div>
-    </div>
-  </nav>
-<div class="container h-100 mt-5">
-    <div class="row h-100 justify-content-center align-items-center">
-      <div class="col-10 col-md-8 col-lg-6">
-        <h3>Update Post</h3>
+<div class="container mt-5">
+  <div class="row">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="card-header">
+                  <h4>Edit Document Post</h4>
+                  <a href="{{ url('/')}}" class="btn btn-danger float-end">Go Back</a>
+                  <div class="card-body">
         <form action="{{ route('posts.update', $post->id) }}" method="post">
           @csrf
           @method('PUT')
-          <div class="form-group">
+          <div class="mb-3">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="title"
               value="{{ $post->title }}" required>
           </div>
-          <div class="form-group">
-            <label for="body">Description</label>
-            <textarea class="form-control" id="body" name="body" rows="3" required>{{ $post->body }}</textarea>
+          <div class="mb-3">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" value="{{ $post->title }}" required>{{ $post->description }}</textarea>
           </div>
-          <div class="form-group">
+          <div class="mb-3">
             <label for="file">File</label>
-            <input type="file" name="file" required>
+            <input type="file" name="file" value="{{ $post->file }}" required>
           </div>
           <button type="submit" class="btn mt-3 btn-primary">Update Post</button>
         </form>
       </div>
+
     </div>
-  </div>
+</div>
+</div>
+</div>
+</div>
 @endsection
