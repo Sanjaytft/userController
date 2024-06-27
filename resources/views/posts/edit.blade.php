@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  <title>Posts</title>
-</head>
-<body>
+@extends('layout.layout')
+
+@section('space-work')
   <nav class="navbar navbar-expand-lg navbar-light bg-warning">
     <div class="container-fluid">
-      <a class="navbar-brand h1" href={{ route('posts.index') }}>CRUDPosts</a>
+      <a class="navbar-brand h1" href={{ route('posts.index') }}>All Post</a>
       <div class="justify-end ">
         <div class="col ">
           <a class="btn btn-sm btn-success" href={{ route('posts.create') }}>Add Post</a>
@@ -32,13 +24,16 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
               value="{{ $post->title }}" required>
           </div>
           <div class="form-group">
-            <label for="body">Body</label>
+            <label for="body">Description</label>
             <textarea class="form-control" id="body" name="body" rows="3" required>{{ $post->body }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="file">File</label>
+            <input type="file" name="file" required>
           </div>
           <button type="submit" class="btn mt-3 btn-primary">Update Post</button>
         </form>
       </div>
     </div>
   </div>
-</body>
-</html>
+@endsection

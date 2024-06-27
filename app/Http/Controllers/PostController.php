@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-
-
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
+      if(auth()->user()->role==1){
+        $posts = Post::all();
+      }else {
+        $posts = Post::where('status', 1)->get();
+      }
       $posts = Post::all();
       return view('posts.index', compact('posts'));
     }
@@ -30,16 +31,43 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-      dd($request->all);
-      $request->validate([
+        $request->validate([
         'title' => 'required|max:255',
         'description' => 'required',
-        'file' => 'mines'
-      ]);
-      Post::create($request->all());
-      
-      return redirect()->route('posts.index')
-        ->with('success', 'Post created successfully.');
+        'file' => 'required|file|mimes:docx,doc,pdf,txt|max:2048', // Example mime types and max size (2MB)
+    ]);
+
+    // Handle File Upload
+    if ($request->hasFile('file')) {
+        $file = $request->file('file');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->storeAs('uploads', $fileName); // Store file in storage/app/uploads directory
+    } else {
+        $filePath = null;
+    }
+
+
+    // Create Post
+    $post = Post::create([
+        'title' => $request->input('title'),
+        'description' => $request->input('description'),
+        'file' => $filePath, // Store the file path in the database
+        'user_id' => auth()->user()->id,
+        
+    ]);
+
+    if($post) {
+        if($post->status){
+            $post->status = 0;
+        }
+        else{
+            $post->status = 1;
+        }
+    }
+
+// Redirect or return response as needed
+return redirect()->route('posts.index')->with('success', 'Post created successfully!');
+
     }
     /**
      * Update the specified resource in storage.
@@ -104,4 +132,4 @@ class PostController extends Controller
       $post = Post::find($id);
       return view('posts.edit', compact('post'));
     }
-  }
+}

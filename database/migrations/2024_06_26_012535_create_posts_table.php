@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('body');
+            $table->string('description');
             $table->string('file');
             $table->boolean('status')->default(0);
             $table->foreignId('user_id')->constrained();

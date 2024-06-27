@@ -1,5 +1,7 @@
-<h1>User Dashboard</h1>
+@extends('layout/layout')
 
-<a href="/logout">Logout</a>
+@section('space-work')
 
-<a href="/createpost"> CreatePost</a>
+    <h2 class="mb-4">User Profile</h2>
+
+@endsection

@@ -40,13 +40,19 @@
                     <a href="{{ route('manageRole') }}"><span class="fa fa-role mr-3"></span> Manage Role</a>
                 </li>
                 <li>
-                  <a href=""><span class="fa fa-role mr-3"></span> Manage Posts</a>
+                  <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> Manage Posts</a>
               </li>
+              <li>
+                <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
+            </li>
             @endif
             @if(auth()->user()->role == 2)
                 <li>
                   <a href=""><span class="fa fa-role mr-3"></span> Manage Posts</a>
               </li>
+              <li>
+                <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> View Posts</a>
+            </li>
             @endif
             @if(auth()->user()->role == 3)
             <li>
@@ -54,8 +60,11 @@
           </li>
           @endif
           @if(auth()->user()->role == 0)
+          <li>
+            <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> All Posts Users</a>
+        </li>
             <li>
-              <a href=""><span class="fa fa-role mr-3"></span> Create Posts</a>
+              <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
           </li>
           @endif
 
