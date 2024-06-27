@@ -30,10 +30,11 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-        
+      dd($request->all);
       $request->validate([
         'title' => 'required|max:255',
-        'body' => 'required',
+        'description' => 'required',
+        'file' => 'mines'
       ]);
       Post::create($request->all());
       

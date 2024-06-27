@@ -23,8 +23,7 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
   <div class="row h-100 justify-content-center align-items-center">
     <div class="col-10 col-md-8 col-lg-6">
       <h3>Add a Post</h3>
-      <form action="{{ route('posts.store') }}" method="post">
-        @method('POST')
+      <form action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
           <label for="title">Title</label>
@@ -33,6 +32,10 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
         <div class="form-group">
           <label for="body">Body</label>
           <textarea class="form-control" id="body" name="body" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="file">File</label>
+          <input type="file" name="file" rows="4" required></input>
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Create Post</button>

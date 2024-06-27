@@ -39,7 +39,25 @@
                 <li>
                     <a href="{{ route('manageRole') }}"><span class="fa fa-role mr-3"></span> Manage Role</a>
                 </li>
+                <li>
+                  <a href=""><span class="fa fa-role mr-3"></span> Manage Posts</a>
+              </li>
             @endif
+            @if(auth()->user()->role == 2)
+                <li>
+                  <a href=""><span class="fa fa-role mr-3"></span> Manage Posts</a>
+              </li>
+            @endif
+            @if(auth()->user()->role == 3)
+            <li>
+              <a href=""><span class="fa fa-role mr-3"></span> View Posts</a>
+          </li>
+          @endif
+          @if(auth()->user()->role == 0)
+            <li>
+              <a href=""><span class="fa fa-role mr-3"></span> Create Posts</a>
+          </li>
+          @endif
 
             <li>
                 <a href="/logout"><span class="fa fa-sign-out mr-3"></span> Logout</a>
