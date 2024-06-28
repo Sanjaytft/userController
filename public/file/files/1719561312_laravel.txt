@@ -1,0 +1,15 @@
+To Set Up laravel project. 
+1. change .env.example file to .env file
+2. generate key -> php artisan key:generate 
+3. Run migration file from terminal 
+4. Run php artisan db:seed to update superadmin 
+
+// problem in posting in admin  
+//user can access all user data 
+--> other user can also see other user post
+
+-> Sub admin can only see their post they have create 
+-> Admin can see other Admin(department data) + Their department data 
+
+$user_id = Auth::user()->id;
+return ciew (, compact('user_id)

@@ -8,6 +8,11 @@ use App\Models\User;
 class UserController extends Controller
 {
     //
+    public function index () 
+    {
+        $user_id = Auth::user()->id;
+        return view ('/dashboard', compact('user_id'));
+    }
     public function dashboard()
     {
         return view('user.dashboard');
