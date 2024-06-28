@@ -66,9 +66,9 @@
           <li>
             <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> User Posts</a>
         </li>
-            <li>
-              <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
-          </li>
+        <li>
+          <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
+      </li>
           @endif
 
             <li>

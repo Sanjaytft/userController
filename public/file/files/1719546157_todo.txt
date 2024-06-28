@@ -1,0 +1,37 @@
+Working on user dashboard. 
+Department User should be verify by admin
+Post visibility for individual users 
+
+//Register use Super-admin -> should not show 
+
+Roles define to each user dyanamically 
+
+-> Super admin Role / Guest Role Authentication ?? 
+Roles and permisisons to manage and protect route ?? 
+
+
+
+1. Multi user authentication (Admin, Department) 
+->create User fir sales department
+
+2. Docs and excel can be pushed from user & admin
+-> make access to one department or other dept.
+
+3. Documnet push approval from the admin
+
+4. One user from one department
+-> can only access the documents provided in their department
+
+5. User delete not working
+
+6. Fresh Project their will be no role define 
+-> DB seed for already exiting Users and their roles
+
+
+
+
+
+
+
+
+
