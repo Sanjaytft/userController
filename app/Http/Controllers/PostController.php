@@ -42,6 +42,7 @@ class PostController extends Controller
         'file' => 'required|mimes:docx,doc,pdf,txt,jpg,jpeg,png|max:2048', // Example mime types and max size (2MB)
 
     ]);
+
     $mimeType = $request->file('file')->getMimeType();
     // Handle File Upload
     if (strpos($mimeType, 'image') !== false) {
@@ -62,7 +63,6 @@ class PostController extends Controller
         'user_id' => auth()->user()->id, 
         'role_id' => auth()->user()->role,    
     ]);
-
     //create 
     Mail::to("admin@gmail.com")->send(new PostMail($post));
 

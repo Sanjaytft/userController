@@ -1,0 +1,5 @@
+To Set Up laravel project. 
+1. change .env.example file to .env file
+2. generate key -> php artisan key:generate 
+3. Run migration file from terminal 
+4. Run php artisan db:seed to update superadmin 

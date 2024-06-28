@@ -29,8 +29,8 @@
                     @foreach ($roles as $role)
                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                     @endforeach
-                    <option value="2">User</option>
-                    <option value="0">Sub Admin</option>
+                    <option value="0">User</option>
+                    <option value="2">Sub Admin</option>
                     <option value="3">Admin</option>
                 </select>
             </div>

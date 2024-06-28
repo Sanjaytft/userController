@@ -32,7 +32,7 @@
         <ul class="list-unstyled components mb-5">
 
             @if(auth()->user()->role == 1)
-            <h1><a href="" class="logo">Super Admin Dashboard</a></h1>
+            <h1><a href="" class="logo">Super Admin</a></h1>
                 <li>
                     <a href="{{ route('superAdminUsers') }}"><span class="fa fa-users mr-3"></span>Manage all Users</a>
                 </li>
@@ -47,22 +47,25 @@
             </li>
             @endif
             @if(auth()->user()->role == 2)
-            <h1><a href="" class="logo">User Dashboard</a></h1>
+            <h1><a href="" class="logo">Sub Admin</a></h1>
                 <li>
-                  <a href=""><span class="fa fa-role mr-3"></span> Manage Posts</a>
+                  <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span>Department Post</a>
               </li>
               <li>
-                <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span>All User Posts</a>
+                <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span>Create Posts</a>
             </li>
             @endif
             @if(auth()->user()->role == 3)
             <h1><a href="" class="logo">Admin Dashboard</a></h1>
             <li>
-              <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> View Posts</a>
+              <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span>All Department Post</a>
           </li>
+          <li>
+            <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
+        </li>
           @endif
           @if(auth()->user()->role == 0)
-          <h1><a href="" class="logo">Sub Admin Dashboard</a></h1>
+          <h1><a href="" class="logo">User Dashboard</a></h1>
           <li>
             <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> User Posts</a>
         </li>
