@@ -17,19 +17,22 @@ class PostController extends Controller
     public function index()
     {
       if(auth()->user()->role==1){
-        $posts = Post::all();
-      }else {
-        $posts = Post::where('status', 1)->get();
+        $posts = Post::latest()->get();
+      }else  {
+        $posts = Post::where('status', 1)->where('role_id', auth()->user()->role)->get();
       }
-      $posts = Post::all();
       return view('posts.index', compact('posts'));
     }
+    // routes functions
     /**
-     * Store a newly created resource in storage.
+     * Show the form for creating a new post.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function create()
+    {
+      return view('posts.create');
+    }
     public function store(Request $request)
     {
 
@@ -37,6 +40,7 @@ class PostController extends Controller
         'title' => 'required|max:255',
         'description' => 'required',
         'file' => 'required|mimes:docx,doc,pdf,txt,jpg,jpeg,png|max:2048', // Example mime types and max size (2MB)
+
     ]);
     $mimeType = $request->file('file')->getMimeType();
     // Handle File Upload
@@ -50,15 +54,13 @@ class PostController extends Controller
     $file->move(public_path('file/files'), $fileName);
   } 
    
-
-
-    // Create Post
+   // Create Post
     $post = Post::create([
         'title' => $request->input('title'),
         'description' => $request->input('description'),
         'file' => $fileName, // Store the file path in the database
-        'user_id' => auth()->user()->id,
-        
+        'user_id' => auth()->user()->id, 
+        'role_id' => auth()->user()->role,    
     ]);
 
     //create 
@@ -67,76 +69,6 @@ class PostController extends Controller
   // Redirect or return response as needed
   return redirect()->route('posts.index')->with('success', 'Post created successfully!');
 
-    }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Post $post)
-    {
-      $request->validate([
-        'title' => 'required|max:255',
-        'description' => 'required',
-        'file' => 'required|mimes:docx,doc,pdf,txt,jpg,jpeg,png|max:2048', // Example mime types and max size (2MB)
-    ]);
-        $mimeType = $request->file('file')->getMimeType();
-        // Handle File Upload
-        if (strpos($mimeType, 'image') !== false) {
-          $file = $request->file('file');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('file/images'), $fileName);
-      } elseif (in_array($mimeType, ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'])) {
-        $file = $request->file('file');
-        $fileName = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('file/files'), $fileName);
-      } 
-      dd('hello');
-
-      // Create Post
-      $post->update ([
-          'title' => $request->input('title'),
-          'description' => $request->input('description'),
-          'file' => $fileName, // Store the file path in the database
-          // 'user_id' => auth()->user()->id,
-          
-      ]);
-      
-  // Redirect or return response as needed
-  return redirect()->route('posts.index')->with('success', 'Post created successfully!');
-
-  }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request)
-    {
-      $post = Post::find($request->post_id);
-      // unlink(public_path($post->file));
-      $post->delete();
-      return back()
-        ->with('success', 'post deleted successfully');
-     
-      // $post = Post::find($id);
-      // 
-      // $post->delete();
-      // return redirect()->route('posts.index')
-      //   ->with('success', 'Post deleted successfully');
-    }
-    // routes functions
-    /**
-     * Show the form for creating a new post.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-      return view('posts.create');
     }
     /**
      * Display the specified resource.
@@ -159,6 +91,76 @@ class PostController extends Controller
     {
       $post = Post::find($id);
       return view('posts.edit', compact('post'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $post)
+    {
+      
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'file' => 'nullable|mimes:docx,doc,pdf,txt,jpg,jpeg,png|max:2048', // Allow null or specific file types and max size (2MB)
+
+        ]);
+      
+
+        $post = Post::find($post);
+
+        // Handle File Upload if a new file is provided
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $mimeType = $file->getMimeType();
+
+            if (strpos($mimeType, 'image') !== false) {
+                $file->move(public_path('file/images'), $fileName);
+            } elseif (in_array($mimeType, ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'])) {
+                $file->move(public_path('file/files'), $fileName);
+            }
+
+            // Delete old file if exists
+            if ($post->file) {
+                $this->deleteFileIfExists($post->file);
+            }
+
+            // Update post with new file path
+            $post->update([
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'file' => $fileName, // Store the file path in the database
+            ]);
+        } else {
+            // Update post without changing file
+            $post->update([
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+            ]);
+        }
+
+        // Redirect or return response as needed
+        return redirect()->route('posts.index')->with('success', 'Post updated successfully!');
+    }
+  
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request)
+    {
+      $post = Post::find($request->post_id);
+      // unlink(public_path($post->file));
+      $post->delete();
+      return back()->with('success', 'post deleted successfully');
+    
     }
 
     public function change_status(Request $request)

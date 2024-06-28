@@ -34,7 +34,9 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return back()->with('success','Your Registration has been successfull.');
+        auth()->login($user);
+
+        return redirect('/dashboard')->with('success','Your Registration has been successfull.');
     }
 
     public function loadLogin()

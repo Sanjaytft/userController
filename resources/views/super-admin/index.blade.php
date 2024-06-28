@@ -21,7 +21,8 @@
                           <th> Description </th>
                           <th > File </th>
                           <th> Status</th>
-                          <th > Action </th>
+                          <th > Edit </th>
+                          <th > Delete </th>
                           </tr>
                       </thead>
                       <tbody>
@@ -42,12 +43,17 @@
                                     </select>
                                 </form>    
                                 <td>
+                                    <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-success"> Edit</a>
+                                </td>
+                                <td> 
+                                    <a> 
                                     <form action="{{ route('posts.destroy') }}" method="post">
                                       @csrf
                                       @method('DELETE')
                                       <input type="hidden" name="post_id" value="{{$post->id}}">
                                       <button type="submit" class="btn btn-danger btn-sm" >Delete</button>
                                     </form>
+                                </a>
                                 </td>
                           </tr>
                           @endforeach

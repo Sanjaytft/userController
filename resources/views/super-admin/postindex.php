@@ -27,14 +27,13 @@
                                         <td> {{ $post->title }}</td>
                                         <td> {{ $post->description }}</td>
                                         <td> {{ $post->filename }}</td>
-                                        <td>  --}}
-                                            {{-- @role(super-admin) --}}
+                                        <td>  
                                             <a href="{{ url('roles/'.$role->id.'/give-permissions')}}" class="btn btn-success"> Add / Edit permission</a>
                             
                                             <a href="{{ url('roles/'.$role->id.'/edit')}}" class="btn btn-success"> Edit</a>
                                         
                                             <a href="{{ url('roles/'.$role->id.'/delete')}}" class="btn btn-danger"> Delete</a>
-                                            {{-- @endrole --}}
+                                            
                                         </td>
                                     </tr>
                                     @endforeach

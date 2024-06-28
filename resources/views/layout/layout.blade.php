@@ -58,7 +58,7 @@
             @if(auth()->user()->role == 3)
             <h1><a href="" class="logo">Admin Dashboard</a></h1>
             <li>
-              <a href=""><span class="fa fa-role mr-3"></span> View Posts</a>
+              <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> View Posts</a>
           </li>
           @endif
           @if(auth()->user()->role == 0)

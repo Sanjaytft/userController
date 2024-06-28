@@ -21,7 +21,9 @@
                           <th> Title </th>
                           <th> Description </th>
                           <th > File </th>
+                          @if(auth()->user()->role == 1)
                           <th> Status</th>
+                          @endif
                           <th > Action </th>
                           </tr>
                       </thead>
@@ -33,7 +35,9 @@
                               <td> {{ $post->title }}</td>
                               <td> {{ $post->description }}</td>
                               <td> {{ $post->file }}</td>
+                              @if(auth()->user()->role == 1)
                               <td>
+                                
                                 <form action="{{ route('posts.change_status') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="post_id" value="{{$post->id}}">
@@ -43,6 +47,7 @@
                                     </select>
                                 </form>    
                               </td>
+                              @endif
                                   <td>
                                   <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-success"> Edit</a>
                                   </td>

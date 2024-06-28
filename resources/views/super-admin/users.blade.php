@@ -18,12 +18,12 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
-                    @if ($user->roles == null)
+                    @if ($user->role == 0)
                         User
-                    @else
-
-                    {{ $user->roles->name }}
-
+                    @elseif ($user->role == 2) 
+                    Sub Admin
+                    @else 
+                    Admin
                     @endif
                 </td>
                 <td>
