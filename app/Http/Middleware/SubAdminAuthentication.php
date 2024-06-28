@@ -16,7 +16,7 @@ class SubAdminAuthentication
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user() && auth()->user()->role == 2){
+        if(auth()->user() && auth()->user()->role == 0){
             return $next($request);
         }
 

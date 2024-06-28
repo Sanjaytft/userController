@@ -47,7 +47,7 @@
             </li>
             @endif
             @if(auth()->user()->role == 2)
-            <h1><a href="" class="logo">Sub Admin Dashboard</a></h1>
+            <h1><a href="" class="logo">User Dashboard</a></h1>
                 <li>
                   <a href=""><span class="fa fa-role mr-3"></span> Manage Posts</a>
               </li>
@@ -62,7 +62,7 @@
           </li>
           @endif
           @if(auth()->user()->role == 0)
-          <h1><a href="" class="logo">User Dashboard</a></h1>
+          <h1><a href="" class="logo">Sub Admin Dashboard</a></h1>
           <li>
             <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> User Posts</a>
         </li>
