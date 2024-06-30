@@ -7,6 +7,9 @@
               @if(session('status'))
                   <div class="alert alert-success">{{ session('status')}}</div>
               @endif
+              @if(session('error'))
+                  <div class="alert alert-danger">{{ session('error')}}</div>
+              @endif
           <div class="card mt-3">
               <div class="card-header">
                   <h4> List of Users Roles
@@ -21,7 +24,7 @@
                           <th> Title </th>
                           <th> Description </th>
                           <th > File </th>
-                          @if(auth()->user()->role == 1)
+                          @if(auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
                           <th> Status</th>
                           @endif
                           <th > Action </th>
@@ -35,14 +38,14 @@
                               <td> {{ $post->title }}</td>
                               <td> {{ $post->description }}</td>
                               <td> {{ $post->file }}</td>
-                              @if(auth()->user()->role == 1)
+                              @if(auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
                               <td>
                                 
                                 <form action="{{ route('posts.change_status') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="post_id" value="{{$post->id}}">
                                     <select name="status" class="form-control" id="" onchange="this.form.submit()">
-                                        <option value="0" {{ $post->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                        <option value="0" {{ $post->status == 0 ? 'selected' : '' }}>Pending</option>
                                         <option value="1" {{ $post->status == 1 ? 'selected' : '' }}>Active</option>
                                     </select>
                                 </form>    
@@ -51,7 +54,6 @@
                                   <td>
                                   <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-success"> Edit</a>
                                   </td>
-                          </tr>
                           @endforeach
                       </tbody>
                   </table>

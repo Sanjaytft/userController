@@ -32,11 +32,12 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        $user->role_id=3;
         $user->save();
 
         auth()->login($user);
 
-        return redirect('/dashboard')->with('success','Your Registration has been successfull.');
+        return redirect('user/dashboard')->with('success','Your Registration has been successfull.');
     }
 
     public function loadLogin()
@@ -76,17 +77,14 @@ class AuthController extends Controller
     {
         $redirect = '';
 
-        if(Auth::user() && Auth::user()->role == 1){
+        if(Auth::user() && Auth::user()->role_id == 1){
             $redirect = '/super-admin/dashboard';
         }
-        else if(Auth::user() && Auth::user()->role == 2){
-            $redirect = '/sub-admin/dashboard';
-        }
-        else if(Auth::user() && Auth::user()->role == 3){
+        else if(Auth::user() && Auth::user()->role_id == 2){
             $redirect = '/admin/dashboard';
         }
-        else{
-            $redirect = '/dashboard';
+        else if(Auth::user() && Auth::user()->role_id == 3){
+            $redirect = '/user/dashboard';
         }
 
         return $redirect;

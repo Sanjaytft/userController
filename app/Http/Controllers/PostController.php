@@ -16,11 +16,14 @@ class PostController extends Controller
      */
     public function index()
     {
-      if(auth()->user()->role==1){
+
+      if(auth()->user()->role_id==1){
         $posts = Post::latest()->get();
-      }else  {
-        $posts = Post::where('status', 1)->where('role_id', auth()->user()->role)->get();
+      }else  
+       {
+        $posts = Post::where('status', 1)->whereJsonContains('department_id', auth()->user()->department_id)->get();
       }
+
       return view('posts.index', compact('posts'));
     }
     // routes functions
@@ -31,6 +34,9 @@ class PostController extends Controller
      */
     public function create()
     {
+      if(json_decode(auth()->user()->department_id)==[]){
+        return back()->with('error','Please assign department to the user to add post');
+      }
       return view('posts.create');
     }
     public function store(Request $request)
@@ -42,6 +48,8 @@ class PostController extends Controller
         'file' => 'required|mimes:docx,doc,pdf,txt,jpg,jpeg,png|max:2048', // Example mime types and max size (2MB)
 
     ]);
+
+   
 
     $mimeType = $request->file('file')->getMimeType();
     // Handle File Upload
@@ -60,14 +68,14 @@ class PostController extends Controller
         'title' => $request->input('title'),
         'description' => $request->input('description'),
         'file' => $fileName, // Store the file path in the database
-        'user_id' => auth()->user()->id, 
-        'role_id' => auth()->user()->role,    
+        'user_id' => auth()->user()->id,   
+        'department_id' => auth()->user()->department_id, 
     ]);
     //create 
     Mail::to("admin@gmail.com")->send(new PostMail($post));
 
   // Redirect or return response as needed
-  return redirect()->route('posts.index')->with('success', 'Post created successfully!');
+   return redirect()->route('posts.index')->with('success', 'Post created successfully!');
 
     }
     /**
@@ -102,13 +110,15 @@ class PostController extends Controller
      */
     public function update(Request $request, $post)
     {
-      
+
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
             'file' => 'nullable|mimes:docx,doc,pdf,txt,jpg,jpeg,png|max:2048', // Allow null or specific file types and max size (2MB)
 
         ]);
+
+        dd('asda');
       
 
         $post = Post::find($post);
@@ -170,4 +180,6 @@ class PostController extends Controller
       $post->save();
       return back()->with('status','Status change successfully!!!');
     }
+
+
 }

@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="{{ asset('js/multiselect-dropdown.js') }}"></script>
@@ -31,11 +32,14 @@
         </div>
         <ul class="list-unstyled components mb-5">
 
-            @if(auth()->user()->role == 1)
+            @if(auth()->user()->role_id == 1)
             <h1><a href="" class="logo">Super Admin</a></h1>
                 <li>
                     <a href="{{ route('superAdminUsers') }}"><span class="fa fa-users mr-3"></span>Manage all Users</a>
                 </li>
+                <li>
+                  <a href="{{ route('departments.create') }}"><span class="fa fa-role mr-3"></span> Create Departments</a>
+              </li>
                 <li>
                     <a href="{{ route('manageRole') }}"><span class="fa fa-role mr-3"></span> Manage all Roles</a>
                 </li>
@@ -45,8 +49,11 @@
               <li>
                 <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
             </li>
+            <li>
+              <a href="{{ route('departments.index') }}"><span class="fa fa-role mr-3"></span>All Department</a>
+          </li>
             @endif
-            @if(auth()->user()->role == 2)
+            {{-- @if(auth()->user()->role == 2)
             <h1><a href="" class="logo">Sub Admin</a></h1>
                 <li>
                   <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span>Department Post</a>
@@ -54,8 +61,8 @@
               <li>
                 <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span>Create Posts</a>
             </li>
-            @endif
-            @if(auth()->user()->role == 3)
+            @endif --}}
+            @if(auth()->user()->role_id == 2)
             <h1><a href="" class="logo">Admin Dashboard</a></h1>
             <li>
               <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span>All Department Post</a>
@@ -63,8 +70,11 @@
           <li>
             <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
         </li>
+        <li>
+          <a href="{{ route('departments.index') }}"><span class="fa fa-role mr-3"></span> All Departments</a>
+      </li>
           @endif
-          @if(auth()->user()->role == 0)
+          @if(auth()->user()->role_id == 3)
           <h1><a href="" class="logo">User Dashboard</a></h1>
           <li>
             <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span> User Posts</a>
@@ -72,6 +82,12 @@
         <li>
           <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
       </li>
+      <li>
+        <a href="{{ route('departments.index') }}"><span class="fa fa-role mr-3"></span> All Departments</a>
+    </li>
+      {{-- <li>
+        <a href="{{ route('departments.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
+    </li> --}}
           @endif
 
             <li>
@@ -91,5 +107,9 @@
     <script src="{{ asset('js/popper.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+      <!-- Bootstrap JS and dependencies (optional) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>

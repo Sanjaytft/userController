@@ -16,7 +16,7 @@ class SuperAdminAuthentication
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user() && auth()->user()->role == 1){
+        if(auth()->user() && auth()->user()->role_id == 1){
             return $next($request);
         }
 

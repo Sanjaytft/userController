@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Role;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,13 +15,50 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-        User::factory()->create([
+         $role= Role::create([
+            'name' => 'superadmin',
+        ]);
+        $role= Role::create([
+            'name' => 'admin',
+        ]);
+       
+        $role= Role::create([
+            'name' => 'user',
+        ]);
+       
+       
+        User::create([
             'name' => 'SuperAdmin',
             'email' => 'superadmin@admin.com',
             'password' => Hash::make('password'),
-            'role' => 1, 
+            'role_id' => 1,
+            'department_id'=>null,
         ]);
+
+        // Role::create([
+        //     'id' => '1',
+        //     'name' => 'superadmin',
+        // ]);
+        // $role = Role::where('name', 'SuperAdmin')->firstOrFail();
+        // User::factory()->create([
+        //     'name' => 'SuperAdmin',
+        //     'email' => 'superadmin@admin.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => $role->id, 
+        // ]);
+
+        // Role::factory()->create([
+        //     'id' => '1',
+        //     'name' => 'superAdmin',
+        // ]);
+        // Role::factory()->create([
+        //     'id' => '2',
+        //     'name' => 'subAdmin',
+        // ]);
+        // Role::factory()->create([
+        //     'id' => '3',
+        //     'name' => 'Admin',
+        // ]);
 
         
         // User::factory()->create([

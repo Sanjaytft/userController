@@ -23,17 +23,17 @@ class SuperAdminController extends Controller
 
     public function users()
     {
-        $users = User::with('roles')->where('role','!=',1)->get();
+        $users = User::where('role_id','!=',1)->latest()->get();
         return view('super-admin.users', compact('users'));
     }
 
-    // public function destroy($userId)
-    // {
-    //     $user = User::findOrFail($userId);
-    //     $user->delete();
+    public function destroy($userId)
+    {
+        $user = User::findOrFail($userId);
+        $user->delete();
 
-    //     return redirect('/users')->route('Super-admin.users')->with('status', 'User Deleted Sucessfully');
-    // }
+        return redirect('/users')->route('Super-admin.users')->with('status', 'User Deleted Sucessfully');
+    }
 
     public function manageRole()
     {

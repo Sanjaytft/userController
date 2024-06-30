@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('description');
             $table->string('file');
             $table->boolean('status')->default(0);
-            $table->foreignId('user_id')->constrained();
-            $table->integer('role_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->unsignedBigInteger('department_id')->nullable();
+            // $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
             $table->timestamps();
         });
     }

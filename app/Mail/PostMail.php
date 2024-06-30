@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Post;
 
 class PostMail extends Mailable
 {
@@ -18,7 +19,7 @@ class PostMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($mailData)
+    public function __construct(Post $mailData)
     {
         $this->mailData = $mailData;
     }
