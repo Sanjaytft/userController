@@ -39,7 +39,12 @@
                               <td> {{ $post->description }}</td>
 
                               <td>
-                                <a href="{{ asset('storage/public/file' . $post->file) }}" target="_blank">{{ $post->file }}</a>
+                                {{-- <a href="{{ asset('storage/public/file' . $post->file) }}" target="_blank">{{ $post->file }}</a> --}}
+                                @if ($file->mimeType == 'image/jpeg' || $file->mimeType == 'image/png') {{-- Adjust condition based on your logic --}}
+                                    <a href="{{ asset('file/images/' . $file->fileName) }}" target="_blank">View Image</a>
+                                @elseif (in_array($file->mimeType, ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']))
+                                    <a href="{{ asset('file/files/' . $file->fileName) }}" target="_blank">View Document</a>
+                                @endif
                             </td>
                               @if(auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
                               <td>

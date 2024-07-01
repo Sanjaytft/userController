@@ -84,7 +84,10 @@ class PostController extends Controller
     // 'post_id' => $post->id,
     // ]);
     //create 
-    Mail::to("admin@gmail.com")->send(new PostMail($post));
+  // Send notification email to admin
+  $adminEmail = 'admin@example.com'; // Replace with your admin's email address
+  Mail::to($adminEmail)->send(new PostMail($post));
+    // Mail::to("sanjay.teamtft@gmail.com")->send(new PostMail($post));
 
   // Redirect or return response as needed
    return redirect()->route('posts.index')->with('success', 'Post created successfully!');

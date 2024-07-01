@@ -1,0 +1,26 @@
+Getting knowing travel projects 
+
+-- Learn API in XML request response 
+
+-- MVC Architectures in TravelFreetravels 
+
+- B2C-> Controller->
+	-> Models-> 
+	->Views  
+--configuration -> all of the configuration resource files are define into config.php files
+-> development eenvironment set 
+-> Database configuration link/set 
+-> migration
+-> Routes are define in a config files
+-> mimes file format are arrange in array list
+-> user_agent all interface for users are included ? 
+
+->Controller 
+-  General-> Main Controller 
+- 
+
+--> User Registration ->route ->auth/
+-> Views->templatev3-> user-> all-user-registration
+-> Model-> user_model -> all user activity save
+-> Controller -> Auth controller -> AlL routes
+

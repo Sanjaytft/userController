@@ -14,15 +14,30 @@ class PostMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $mailData;
+    // public $mailData;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Post $mailData)
+    // public function __construct(Post $post)
+    // {
+    //     $this->post = $post;
+    //     // $this->mailData = $mailData;
+    // }
+
+    public $post;
+
+    public function __construct($post)
     {
-        $this->mailData = $mailData;
+        $this->post = $post;
     }
+
+    public function build()
+    {
+        return $this->subject('New Post Created')
+                    ->view('emails.post-notification');
+    }
+
 
     /**
      * Get the message envelope.

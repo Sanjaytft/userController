@@ -49,10 +49,24 @@ class User extends Authenticatable
         
     //     return $this->hasOne(Role::class,'id', 'role');
     // }
-
-    public function role()
+        public function roles()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+        public function isAdmin()
+    {
+        return $this->roles()->where('name', 'admin')->exists();
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->roles()->where('name', 'super_admin')->exists();
     }
 
 }

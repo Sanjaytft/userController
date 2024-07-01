@@ -26,7 +26,13 @@
                                         <td> {{ $post->id }}</td>
                                         <td> {{ $post->title }}</td>
                                         <td> {{ $post->description }}</td>
-                                        <td> {{ $post->filename }}</td>
+                                        <td>
+                                        @if ($file->mimeType == 'image/jpeg' || $file->mimeType == 'image/png') {{-- Adjust condition based on your logic --}}
+                                            <a href="{{ asset('file/images/' . $file->fileName) }}" target="_blank">View Image</a>
+                                        @elseif (in_array($file->mimeType, ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']))
+                                            <a href="{{ asset('file/files/' . $file->fileName) }}" target="_blank">View Document</a>
+                                        @endif
+                                        </td>
                                         <td>  
                                             <a href="{{ url('roles/'.$role->id.'/give-permissions')}}" class="btn btn-success"> Add / Edit permission</a>
                             

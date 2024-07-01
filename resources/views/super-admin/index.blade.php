@@ -9,7 +9,7 @@
               @endif
           <div class="card mt-3">
               <div class="card-header">
-                  <h4 href={{ route('super-admin.index') }} class="btn btn-primary float-end"> List of Posts
+                  <h4> List of Posts
                   </h4>
               </div>
                   <div class="card-body">

@@ -40,12 +40,6 @@
                 <li>
                   <a href="{{ route('departments.index') }}"><span class="fa fa-role mr-3"></span>Manage Department</a>
               </li>
-                {{-- <li>
-                  <a href="{{ route('departments.create') }}"><span class="fa fa-role mr-3"></span> Create Departments</a>
-              </li> --}}
-                {{-- <li>
-                    <a href="{{ route('manageRole') }}"><span class="fa fa-role mr-3"></span> Manage all Roles</a>
-                </li> --}}
                 <li>
                   <a href="{{ route('super-admin.index') }}"><span class="fa fa-role mr-3"></span> Manage all Posts</a>
               </li>
@@ -62,7 +56,7 @@
               <li>
                 <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span>Create Posts</a>
             </li>
-            @endif --}}
+            @endif --}} 
             @if(auth()->user()->role_id == 2)
             <h1><a href="" class="logo">Admin Dashboard</a></h1>
             <li>

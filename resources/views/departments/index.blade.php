@@ -38,7 +38,7 @@
                                     <form action="{{ route('departments.destroy') }}" method="post">
                                       @csrf
                                       @method('DELETE')
-                                      <input type="hidden" name="post_id" value="{{$department->id}}">
+                                      <input type="hidden" name="department_id" value="{{$department->id}}">
                                       <button type="submit" class="btn btn-danger btn-sm" >Delete</button>
                                     </form>
                                 </a>

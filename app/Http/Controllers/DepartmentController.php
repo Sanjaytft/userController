@@ -107,7 +107,6 @@ class DepartmentController extends Controller
     public function destroy(Request $request)
     {
       $department = Department::find($request->department_id);
-      
       // unlink(public_path($post->file));
       $department->delete();
       return back()->with('success', 'post deleted successfully');
