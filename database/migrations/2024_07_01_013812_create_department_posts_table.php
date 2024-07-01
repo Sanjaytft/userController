@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('department_posts', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('description');
-            $table->string('file');
-            $table->boolean('status')->default(0);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('post_id')->nullable();
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+
             $table->unsignedBigInteger('department_id')->nullable();
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('department_posts');
     }
 };

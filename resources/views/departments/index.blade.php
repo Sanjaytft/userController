@@ -19,7 +19,8 @@
                           <tr>
                           <th> ID </th>
                           <th> Name </th>
-                          <th > Action </th>
+                          <th > Edit </th>
+                          <th > Delete </th>
                           </tr>
                       </thead>
                       <tbody>
@@ -31,6 +32,17 @@
                                    <td>
                                   <a href="{{ route('departments.edit', $department->id) }}" class="btn btn-success"> Edit</a>
                                   </td>
+
+                                  <td> 
+                                    <a> 
+                                    <form action="{{ route('departments.destroy') }}" method="post">
+                                      @csrf
+                                      @method('DELETE')
+                                      <input type="hidden" name="post_id" value="{{$department->id}}">
+                                      <button type="submit" class="btn btn-danger btn-sm" >Delete</button>
+                                    </form>
+                                </a>
+                                </td>
                           </tr>
                           @endforeach
                       </tbody>

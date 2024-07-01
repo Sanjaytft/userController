@@ -9,6 +9,7 @@
                   <h4>Edit Document Post</h4>
                   <a href="{{ url('/')}}" class="btn btn-danger float-end">Go Back</a>
                   <div class="card-body">
+                    
         <form action="{{ route('posts.update', $post->id) }}" method="post">
           @csrf
           @method('PUT')

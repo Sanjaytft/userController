@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Mail\PostMail;
 use Illuminate\Http\Request;
+use App\Models\DepartmentPost;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
@@ -19,10 +22,14 @@ class PostController extends Controller
 
       if(auth()->user()->role_id==1){
         $posts = Post::latest()->get();
-      }else  
-       {
-        $posts = Post::where('status', 1)->whereJsonContains('department_id', auth()->user()->department_id)->get();
+      }elseif (auth()->user()->role_id == 2){
+        $posts = Post::where('department_id', auth()->user()->department_id)->get();
       }
+      else
+       {
+        $posts = Post::where('status', 1)->where('user_id', auth()->user()->id)->get();
+      }
+
 
       return view('posts.index', compact('posts'));
     }
@@ -70,7 +77,12 @@ class PostController extends Controller
         'file' => $fileName, // Store the file path in the database
         'user_id' => auth()->user()->id,   
         'department_id' => auth()->user()->department_id, 
+        
     ]);
+    // $departmentpost = DepartmentPost::create([
+
+    // 'post_id' => $post->id,
+    // ]);
     //create 
     Mail::to("admin@gmail.com")->send(new PostMail($post));
 
@@ -110,36 +122,42 @@ class PostController extends Controller
      */
     public function update(Request $request, $post)
     {
-
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
             'file' => 'nullable|mimes:docx,doc,pdf,txt,jpg,jpeg,png|max:2048', // Allow null or specific file types and max size (2MB)
-
         ]);
-
-        dd('asda');
-      
-
+    
+        // Find the post by ID
         $post = Post::find($post);
-
+    
+        if (!$post) {
+            return back()->with('error', 'Post not found');
+        }
+    
         // Handle File Upload if a new file is provided
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $mimeType = $file->getMimeType();
-
+    
+            // Determine the destination directory based on file type
             if (strpos($mimeType, 'image') !== false) {
-                $file->move(public_path('file/images'), $fileName);
+                $destinationPath = public_path('file/images');
             } elseif (in_array($mimeType, ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'])) {
-                $file->move(public_path('file/files'), $fileName);
+                $destinationPath = public_path('file/files');
+            } else {
+                return back()->with('error', 'Unsupported file type');
             }
-
+    
+            // Move the uploaded file to the destination directory
+            $file->move($destinationPath, $fileName);
+    
             // Delete old file if exists
             if ($post->file) {
                 $this->deleteFileIfExists($post->file);
             }
-
+    
             // Update post with new file path
             $post->update([
                 'title' => $request->input('title'),
@@ -153,9 +171,22 @@ class PostController extends Controller
                 'description' => $request->input('description'),
             ]);
         }
-
+    
         // Redirect or return response as needed
         return redirect()->route('posts.index')->with('success', 'Post updated successfully!');
+    }
+    
+    /**
+     * Delete file from storage if it exists.
+     *
+     * @param string $filePath
+     * @return void
+     */
+    private function deleteFileIfExists($filePath)
+    {
+        if (File::exists(public_path($filePath))) {
+            File::delete(public_path($filePath));
+        }
     }
   
     /**
@@ -164,14 +195,42 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
-    {
-      $post = Post::find($request->post_id);
-      // unlink(public_path($post->file));
-      $post->delete();
-      return back()->with('success', 'post deleted successfully');
+    // public function destroy(Request $request)
+    // {
+    //   $post = Post::find($request->post_id);
+    //   // unlink(public_path($post->file));
+    //   $post->delete();
+    //   return back()->with('success', 'post deleted successfully');
     
+    // }
+
+    public function destroy(Request $request)
+{
+    // Validate the request to ensure post_id is present and numeric
+    $request->validate([
+        'post_id' => 'required|numeric',
+    ]);
+
+    // Find the post by its ID
+    $post = Post::find($request->post_id);
+
+    // Check if post exists
+    if ($post) {
+        // Delete the image file if it exists
+        if ($post->file && Storage::disk('public')->exists($post->file)) {
+            Storage::disk('public')->delete($post->file);
+        }
+
+        // Delete the post record from database
+        $post->delete();
+
+        // Redirect back with success message
+        return back()->with('success', 'Post deleted successfully');
+    } else {
+        // If post not found, redirect back with error message
+        return back()->with('error', 'Post not found or already deleted');
     }
+}
 
     public function change_status(Request $request)
     {

@@ -44,7 +44,6 @@ Route::group(['prefix' => 'super-admin','middleware'=>['web','isSuperAdmin']],fu
 
     Route::get('/dashboard',[UserController::class,'dashboard']);
     Route::delete('/delete-post', PostController::class . '@destroy')->name('posts.destroy');
-    Route::post('/change_status', PostController::class .'@change_status')->name('posts.change_status');
 
     Route::get('/', SuperAdminController::class .'@index')->name('super-admin.index');
     // Route::delete('/posts/{post}', PostController::class .'@destroy')->name('posts.destroy');
@@ -57,11 +56,16 @@ Route::group(['prefix' => 'sub-admin','middleware'=>['web','isSubAdmin']],functi
 
 Route::group(['prefix' => 'admin','middleware'=>['web','isAdmin']],function(){
     Route::get('/dashboard',[AdminController::class,'dashboard']);
+    
 });
 
 Route::group(['middleware'=>['auth']],function(){
-    Route::post('/change_department', UserController::class .'@change_department')->name('users.change_department');
+
     Route::post('/change_role', UserController::class .'@change_role')->name('users.change_role');
+
+    Route::post('/change_status', PostController::class .'@change_status')->name('posts.change_status');
+    Route::post('/change_department', UserController::class .'@change_department')->name('users.change_department');
+    
 
     Route::get('/user/dashboard',[UserController::class,'dashboard']);
         // returns the home page with all posts

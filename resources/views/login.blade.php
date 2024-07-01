@@ -1,34 +1,42 @@
 @extends('welcome')
-@section ('content')
+
+@section('content')
     @if($errors->any())
-        @foreach($errors->all() as $error)
-        <p style="color:red;">{{ $error }}</p>
-        @endforeach
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     @if(Session::has('error'))
-        <p style="color:red;">{{ Session::get('error') }}</p>
+        <div class="alert alert-danger">{{ Session::get('error') }}</div>
     @endif
+
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title">Login</h3>
+                    </div>
+                    <div class="card-body">
                         <form action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                            <label for="name"> User Email </label> 
-                            <input type="email" name="email" placeholder="Enter Email" class="form-control">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required>
                             </div>
                             <div class="mb-3">
-                            <label for="name"> Password </label> 
-                            <input type="password" name="password" placeholder="Enter Password" class="form-control">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" required>
                             </div>
-                            <input type="submit" value="Login">
-
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                            </div>
                         </form>
-                    </div>
                     </div>
                 </div>
             </div>

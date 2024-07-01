@@ -37,7 +37,10 @@
                               <td> {{ $post->id }}</td>
                               <td> {{ $post->title }}</td>
                               <td> {{ $post->description }}</td>
-                              <td> {{ $post->file }}</td>
+
+                              <td>
+                                <a href="{{ asset('storage/public/file' . $post->file) }}" target="_blank">{{ $post->file }}</a>
+                            </td>
                               @if(auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
                               <td>
                                 

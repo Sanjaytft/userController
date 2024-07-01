@@ -43,25 +43,28 @@
                 </td>
                 @php
                  $department=App\Models\Department::all();   
+                //  $departmentPost
                 @endphp
                 <td>
                     <form action="{{ route('users.change_department') }}" method="POST">
                         @csrf
                         <input type="hidden" name="user_id" value="{{$user->id}}">
-                        <select multiple name="department_id[]" class="form-control">
+                        <select  name="department_id" class="form-control" onchange="this.form.submit()">
+                            <option selected disabled > Select Department</option>
                             @foreach($department as $dept)
-                                <option value="{{$dept->id}}"
-                                    @if(is_array(json_decode($user->department_id)) && in_array($dept->id, json_decode($user->department_id)))
-                                        selected
-                                    @endif
+                                <option value="{{$dept->id}}" 
+                                    @if ($dept->id == $user->department_id)
+                                        selected 
+                                    @endif 
+                                    {{-- (is_array(json_decode($user->department_id)) && in_array($dept->id, json_decode($user->department_id))) --}}
                                 >
                                     {{$dept->name}}
                                 </option>
                             @endforeach
                         </select>
-                        <button type="submit"> 
+                        {{-- <button type="submit"> 
                             Save
-                        </button>
+                        </button> --}}
                         
                     </form>    
                 </td>

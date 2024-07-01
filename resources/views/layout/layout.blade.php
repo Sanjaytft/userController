@@ -38,20 +38,21 @@
                     <a href="{{ route('superAdminUsers') }}"><span class="fa fa-users mr-3"></span>Manage all Users</a>
                 </li>
                 <li>
-                  <a href="{{ route('departments.create') }}"><span class="fa fa-role mr-3"></span> Create Departments</a>
+                  <a href="{{ route('departments.index') }}"><span class="fa fa-role mr-3"></span>Manage Department</a>
               </li>
-                <li>
+                {{-- <li>
+                  <a href="{{ route('departments.create') }}"><span class="fa fa-role mr-3"></span> Create Departments</a>
+              </li> --}}
+                {{-- <li>
                     <a href="{{ route('manageRole') }}"><span class="fa fa-role mr-3"></span> Manage all Roles</a>
-                </li>
+                </li> --}}
                 <li>
                   <a href="{{ route('super-admin.index') }}"><span class="fa fa-role mr-3"></span> Manage all Posts</a>
               </li>
               <li>
                 <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
             </li>
-            <li>
-              <a href="{{ route('departments.index') }}"><span class="fa fa-role mr-3"></span>All Department</a>
-          </li>
+
             @endif
             {{-- @if(auth()->user()->role == 2)
             <h1><a href="" class="logo">Sub Admin</a></h1>
@@ -65,14 +66,11 @@
             @if(auth()->user()->role_id == 2)
             <h1><a href="" class="logo">Admin Dashboard</a></h1>
             <li>
-              <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span>All Department Post</a>
+              <a href="{{ route('posts.index') }}"><span class="fa fa-role mr-3"></span>All Users Post</a>
           </li>
           <li>
             <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
         </li>
-        <li>
-          <a href="{{ route('departments.index') }}"><span class="fa fa-role mr-3"></span> All Departments</a>
-      </li>
           @endif
           @if(auth()->user()->role_id == 3)
           <h1><a href="" class="logo">User Dashboard</a></h1>
@@ -82,9 +80,6 @@
         <li>
           <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
       </li>
-      <li>
-        <a href="{{ route('departments.index') }}"><span class="fa fa-role mr-3"></span> All Departments</a>
-    </li>
       {{-- <li>
         <a href="{{ route('departments.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
     </li> --}}

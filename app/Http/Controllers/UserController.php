@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Casts\Json;
 
 class UserController extends Controller
 {
@@ -25,6 +26,7 @@ class UserController extends Controller
     {
       $user = User::find($request->user_id);
       $user->delete();
+      $post = Post::where('user_id', $user->id)->delete();
       return back()
         ->with('success', 'User deleted successfully');
     }
@@ -32,8 +34,15 @@ class UserController extends Controller
     public function change_department(Request $request)
     {
       $user = User::find($request->user_id);
-      $user->department_id=json_encode($request->department_id);
+      $user->department_id = $request->department_id;
       $user->save();
+      
+      $posts = Post::where('user_id', $user->id)->get();
+      foreach ($posts as $post) {
+          $post->department_id = $request->department_id;
+          $post->save();
+      }
+       
       return back()->with('status','Department change successfully!!!');
     }
 
