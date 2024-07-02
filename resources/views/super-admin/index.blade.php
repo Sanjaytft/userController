@@ -43,6 +43,7 @@
                                     </select>
                                 </form>    
                                 <td>
+                                  
                                     <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-success"> Edit</a>
                                 </td>
                                 <td> 

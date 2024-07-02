@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use App\Mail\PostMail;
 use Illuminate\Http\Request;
 use App\Models\DepartmentPost;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
@@ -19,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-
+      
       if(auth()->user()->role_id==1){
         $posts = Post::latest()->get();
       }elseif (auth()->user()->role_id == 2){
@@ -27,7 +28,8 @@ class PostController extends Controller
       }
       else
        {
-        $posts = Post::where('status', 1)->where('user_id', auth()->user()->id)->get();
+        $user= User::where('role_id', 1)->first();
+        $posts = Post::where('user_id', $user->id)->orWhere('user_id', auth()->user()->id)->get();
       }
 
 
@@ -41,9 +43,13 @@ class PostController extends Controller
      */
     public function create()
     {
-      if(json_decode(auth()->user()->department_id)==[]){
+      if (auth()->user()->role_id ==1 ) {
+        return view('posts.create');
+      }
+      if(isset(auth()->user()->department_id)){
         return back()->with('error','Please assign department to the user to add post');
       }
+      
       return view('posts.create');
     }
     public function store(Request $request)
@@ -206,30 +212,38 @@ class PostController extends Controller
 
     public function destroy(Request $request)
 {
-    // Validate the request to ensure post_id is present and numeric
-    $request->validate([
-        'post_id' => 'required|numeric',
-    ]);
+
 
     // Find the post by its ID
     $post = Post::find($request->post_id);
 
-    // Check if post exists
-    if ($post) {
-        // Delete the image file if it exists
-        if ($post->file && Storage::disk('public')->exists($post->file)) {
-            Storage::disk('public')->delete($post->file);
-        }
+    
+        // Define allowed image extensions
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        $extension = pathinfo(asset('file/files/' . $post->file), PATHINFO_EXTENSION);
+  
+        if(in_array($extension, $allowedExtensions))
+      {
+        
+        $fileToDelete = public_path('file/images/' . $post->file);
+        
+      }
+      else {
+        $fileToDelete = public_path('file/files/' . $post->file);
+      }
+    // Check if the file exists before attempting to delete it
+        if (file_exists($fileToDelete)) {
+            unlink($fileToDelete);
+          }
 
-        // Delete the post record from database
         $post->delete();
+        
+        
 
-        // Redirect back with success message
-        return back()->with('success', 'Post deleted successfully');
-    } else {
-        // If post not found, redirect back with error message
-        return back()->with('error', 'Post not found or already deleted');
-    }
+        return redirect()->route('superadmin.index')->with('success', 'Post Deleted successfully!');
+        
+
+    // Check if post exists
 }
 
     public function change_status(Request $request)

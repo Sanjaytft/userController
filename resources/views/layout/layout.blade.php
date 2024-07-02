@@ -52,7 +52,6 @@
               <li>
                 <a href="{{ route('posts.create') }}"><span class="fa fa-role mr-3"></span> Create Posts</a>
             </li>
-
             @endif
             {{-- @if(auth()->user()->role == 2)
             <h1><a href="" class="logo">Sub Admin</a></h1>

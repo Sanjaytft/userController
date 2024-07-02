@@ -39,7 +39,18 @@
                               <td> {{ $post->description }}</td>
 
                               <td>
-                                <a href="{{ asset('storage/public/file' . $post->file) }}" target="_blank">{{ $post->file }}</a>
+                                @php 
+                            
+                                    // Define allowed image extensions
+                                    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                                    $extension = pathinfo(asset('file/files/' . $post->file), PATHINFO_EXTENSION);
+                                    @endphp
+                                    @if(in_array($extension, $allowedExtensions))
+                                        <a href="{{ asset('file/images/' . $post->file) }}" target="_blank">{{ $post->file }}</a>
+                                    @else
+                                    <a href="{{ asset('file/files/' . $post->file) }}" target="_blank">{{ $post->file }}</a>
+                                    @endif
+                                
                             </td>
                               @if(auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
                               <td>
