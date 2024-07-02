@@ -32,7 +32,20 @@
                               <td> {{ $post->id }}</td>
                               <td> {{ $post->title }}</td>
                               <td> {{ $post->description }}</td>
-                              <td> {{ $post->file }}</td>
+                              <td>
+                              @php 
+                            
+                                    // Define allowed image extensions
+                                    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                                    $extension = pathinfo(asset('file/files/' . $post->file), PATHINFO_EXTENSION);
+                                    @endphp
+                                    @if(in_array($extension, $allowedExtensions))
+                                        <a href="{{ asset('file/images/' . $post->file) }}" target="_blank">{{ $post->file }}</a>
+                                    @else
+                                    <a href="{{ asset('file/files/' . $post->file) }}" target="_blank">{{ $post->file }}</a>
+                                    @endif
+                                
+                            </td>
                               <td>
                                 <form action="{{ route('posts.change_status') }}" method="POST">
                                     @csrf
